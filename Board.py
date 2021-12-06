@@ -45,6 +45,16 @@ class Board(object):
     def __str__(self) -> str:
         board_str = ""
 
+        # print Base cells
+        for line_no in range(self.token_qty):
+            line = "BASE_{:02d}  ".format(line_no)
+            for p in self.players:
+                line = "{}{} ".format(line,p.base.seek_ahead(p,line_no))
+            board_str = "{}{}\n".format(board_str,line)
+
+
+        board_str = "{}====================\n".format(board_str,line)
+
         # print Home cells
         for line_no in range(self.token_qty):
             line = "HOME_{:02d}  ".format(line_no)
@@ -52,18 +62,13 @@ class Board(object):
                 line = "{}{} ".format(line,p.home.seek_ahead(p,line_no,True))
             board_str = "{}{}\n".format(board_str,line)
 
+        board_str = "{}--------------------\n".format(board_str,line)
+
         # print Game cells
         for line_no in range(self.cells_per_player):
             line = "GAME_{:02d}  ".format(line_no)
             for p in self.players:
                 line = "{}{} ".format(line,p.start.seek_ahead(p,line_no))
-            board_str = "{}{}\n".format(board_str,line)
-
-        # print Base cells
-        for line_no in range(self.token_qty):
-            line = "BASE_{:02d}  ".format(line_no)
-            for p in self.players:
-                line = "{}{} ".format(line,p.base.seek_ahead(p,line_no))
             board_str = "{}{}\n".format(board_str,line)
 
         return board_str
