@@ -10,6 +10,6 @@ addsitedir(basedir)
 from Board import Board
 
 if __name__ == "__main__":
-    colors = ("red","green","yellow","blue")
-    C      = ("R",  "G",    "Y",     "B")
+    colors = ("red","blue","yellow","green")
+    C      = ("R",  "B",   "Y",     "G")
     Board(colors,C,4,7).run()

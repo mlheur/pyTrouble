@@ -10,13 +10,15 @@ from Cell import Cell
 
 class HomeCell(Cell):
     def __init__(self, player, head, occupant) -> None:
-        super().__init__(head, occupant)
+        super().__init__(head)
         self.player = player
         self.exit_id = player.id
         self.exit = player.start
+        self.type = -1
+        self.occupy(occupant)
     
     def seek_ahead(self, player, amount, for_display = False):
-        if not for_display: return super().seek_ahead(self,player,amount)
+        if not for_display: return super().seek_ahead(player,amount)
         ahead = self
         while amount > 0:
             amount -= 1

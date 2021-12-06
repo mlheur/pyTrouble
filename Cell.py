@@ -6,17 +6,19 @@ from site import addsitedir
 
 basedir = dirname(realpath(argv[0]))
 addsitedir(basedir)
+from Token import DummyToken as Token
 
 class Cell(object):
 
     next_id = 0
 
-    def __init__(self,head,occupant=None) -> None:
+    def __init__(self,head) -> None:
         super().__init__()
-        self.occupant = occupant
         self.id = Cell.next_id
         Cell.next_id += 1
         self.exit_id = None
+        self.type = 0
+        self.occupant = None
         if head is None:
             self.next = self
             self.last = self
@@ -27,6 +29,9 @@ class Cell(object):
             head.last = self
 
 
+    def __eq__(self, __o: object) -> bool:
+        return self.id == __o.id
+
     def is_occupied(self):
         return self.occupant is not None
 
@@ -36,10 +41,12 @@ class Cell(object):
         return token
 
     def occupy(self,token):
-        if self.is_occupied():
-            return self.occupant
+        if self.occupant is not None:
+            self.occupant.boot()
+        if token.location is not None:
+            token.location.occupant = None
+        token.location = self
         self.occupant = token
-        return None
     
     def set_exit(self,player):
         self.exit_id = player.id
