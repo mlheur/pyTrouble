@@ -12,7 +12,7 @@ class Token(object):
         super().__init__()
         self.player = player
         self.id     = id
-        print ("Created Token p:{} id:{}\n".format(player,id))
+        print ("Created Token p:{} id:{}".format(player,id))
     def __str__(self) -> str:
         return "{}{}".format(self.player,self.id)
 
