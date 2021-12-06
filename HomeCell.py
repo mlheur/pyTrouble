@@ -11,14 +11,9 @@ from Cell import Cell
 class HomeCell(Cell):
     def __init__(self, player, head, occupant) -> None:
         super().__init__(head, occupant)
-        print("Create Home Cell occupant:{}".format(self.occupant))
         self.player = player
         self.exit_id = player.id
         self.exit = player.start
-    
-    def __str__(self) -> str:
-        if self.is_occupied(): return str(self.occupant)
-        return "{}H".format(self.player)
     
     def seek_ahead(self, player, amount, for_display = False):
         if not for_display: return super().seek_ahead(self,player,amount)
@@ -28,3 +23,8 @@ class HomeCell(Cell):
             ahead = ahead.next
             if ahead is None: return ahead
         return ahead
+
+    def __str__(self) -> str:
+        #return "{:02d}".format(self.id)
+        if self.is_occupied(): return str(self.occupant)
+        return "{}H".format(self.player)
