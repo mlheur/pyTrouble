@@ -12,6 +12,8 @@ class BaseCell(Cell):
     def __init__(self, player, head) -> None:
         super().__init__(head, None)
         self.player = player
+
     def __str__(self) -> str:
+        #return "{:02d}".format(self.id)
         if self.is_occupied(): return str(self.occupant)
         return "{}B".format(self.player)
