@@ -13,16 +13,15 @@ from Player import Player
 
 class Board(object):
 
-    def __init__(self,colors,C,token_qty,cells_per_player) -> None:
+    def __init__(self,gamers,token_qty,cells_per_player) -> None:
         super().__init__()
-        self.colors           = colors
-        self.C                = C
         self.players          = list()
         self.head             = Cell(None)
         self.cells_per_player = cells_per_player
         self.token_qty        = token_qty
-        for p in range(len(colors)):
-            self.players.append(Player(self,p))
+        for p in range(len(gamers)):
+            (name,C,ai) = gamers[p]           
+            self.players.append(Player(self,p,name,C,ai))
         
         for p in self.players: p.start.last.set_exit(p)
     
@@ -41,6 +40,10 @@ class Board(object):
                 if not p.is_finished():
                     players_are_active = True
                     p.move()
+        stats = list()
+        for p in self.players:
+            stats.append((p.name,p.turns,p.moves,p.rolled_again))
+        return stats
 
     def __str__(self) -> str:
         board_str = ""

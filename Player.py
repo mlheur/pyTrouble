@@ -14,11 +14,18 @@ from BaseCell import BaseCell
 
 class Player(object):
 
-    def __init__(self,board,id) -> None:
+    def __init__(self,board,id,name,C,ai) -> None:
         super().__init__()
-        self.board = board
-        self.id = id
-        self.tokens = list()
+        self.name    = name
+        self.C       = C
+        self.board   = board
+        self.id      = id
+        self.tokens  = list()
+        self.ai      = ai
+        self.turns   = 0
+        self.moves   = 0
+        self.rolled_again = 0
+
         if id == 0:
             self.start = board.head
         else:
@@ -42,8 +49,9 @@ class Player(object):
     
     def move(self):
         die = self.board.roll()
-        print("Player {} rolled a {}.".format(self.board.colors[self.id],die))
+        print("Player {} rolled a {}.".format(self.name,die))
 
+        # determine all valid options
         move_options = list()
 
         for t in self.tokens:
@@ -58,13 +66,17 @@ class Player(object):
             # then it's a valid move.
             move_options.append((t,dest))
 
+        # get the user to make a choice based on options
         choice = self.choose(move_options)
+        self.turns += 1
         if choice is not None:
+            self.moves += 1
             choice[1].occupy(choice[0])
             self.board.redraw()
 
         # roll a 6, go again.
         if die == 6:
+            self.rolled_again += 1
             return self.move()
         
         
@@ -73,20 +85,13 @@ class Player(object):
         if len(targets) == 0:
             print (" - None")
             return None
+        choice_id = 1
         for t in targets:
-            print(" - {} targets {}".format(t[0],t[1]))
+            print("{:02d} - {} targets {}".format(choice_id,t[0],t[1]))
+            choice_id += 1
         
-        choice_str = ""
-        while len(choice_str) == 0:
-            choice_str = input("Choose wisely! ")
-
-        try:
-            choice = int(choice_str)
-        except ValueError as ve:
-            choice = 0
-        if choice == 0 or choice > len(self.tokens): choice = None
-        else: choice = targets[choice-1]
-        print("You chose [{}]".format(choice[0]))
+        choice = self.ai.choose(self,targets)
+        print("Player {} chose [{}]".format(self.name,choice[0]))
         return choice
 
     def is_finished(self):
@@ -97,4 +102,4 @@ class Player(object):
         return True
     
     def __str__(self) -> str:
-        return self.board.C[self.id]
+        return self.C
