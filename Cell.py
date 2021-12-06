@@ -9,17 +9,23 @@ addsitedir(basedir)
 
 class Cell(object):
 
+    next_id = 0
+
     def __init__(self,head,occupant=None) -> None:
         super().__init__()
         self.occupant = occupant
+        self.id = Cell.next_id
+        Cell.next_id += 1
+        self.exit_id = None
         if head is None:
             self.next = self
             self.last = self
         else:
+            head.last.next = self
             self.next = head
             self.last = head.last
             head.last = self
-        self.exit_id = None
+
 
     def is_occupied(self):
         return self.occupant is not None
@@ -53,5 +59,6 @@ class Cell(object):
         return self.next
     
     def __str__(self) -> str:
+        #return "{:02d}".format(self.id)
         if self.is_occupied(): return str(self.occupant)
         return "__"
