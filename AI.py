@@ -11,6 +11,8 @@ class TroubleAI(object):
     AI = "UNDEF"
     def choose(self,player,options):
         pass
+    def __str__(self) -> str:
+        return self.AI
 
 
 class UserAI(TroubleAI):
@@ -65,3 +67,15 @@ class BehindAI(TroubleAI):
                 best_choice = opt
                 most_distance = distance
         return best_choice
+
+
+class AttackAI(AheadAI):
+    AI = "ATTACK"
+    def choose(self,player,options):
+        best_choice = None
+        most_distance = 0
+        for opt in options:
+            (token,dest) = opt
+            if dest.is_occupied():
+                return opt
+        return super().choose(player,options)
