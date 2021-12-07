@@ -49,7 +49,7 @@ class Player(object):
     
     def move(self):
         die = self.board.roll()
-        print("Player {} rolled a {}.".format(self.name,die))
+        #print("Player {} rolled a {}.".format(self.name,die))
 
         # determine all valid options
         move_options = list()
@@ -80,18 +80,18 @@ class Player(object):
             return self.move()
         
         
-    def choose(self,targets):
-        print("Valid Moves:")
-        if len(targets) == 0:
-            print (" - None")
+    def choose(self,options):
+        #print("Valid Moves:")
+        if len(options) == 0:
+            #print (" - None")
             return None
         choice_id = 1
-        for t in targets:
-            print("{:02d} - {} targets {}".format(choice_id,t[0],t[1]))
+        for t in options:
+            #print("{:02d} - {} targets {}".format(choice_id,t[0],t[1]))
             choice_id += 1
         
-        choice = self.ai.choose(self,targets)
-        print("Player {} chose [{}]".format(self.name,choice[0]))
+        choice = self.ai.choose(self,options)
+        #print("Player {} chose [{}]".format(self.name,choice[0]))
         return choice
 
     def is_finished(self):

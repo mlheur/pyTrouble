@@ -8,12 +8,14 @@ basedir = dirname(realpath(argv[0]))
 addsitedir(basedir)
 
 class TroubleAI(object):
-    def choose(self,player,targets):
+    AI = "UNDEF"
+    def choose(self,player,options):
         pass
 
 
 class UserAI(TroubleAI):
-    def choose(self,player,targets):
+    AI = "USER"
+    def choose(self,player,options):
         choice_str = ""
         while len(choice_str) == 0:
             choice_str = input("Choose wisely! ")
@@ -23,19 +25,43 @@ class UserAI(TroubleAI):
         except ValueError as ve:
             choice = 0
         
-        if choice == 0 or choice > len(targets): choice = None
-        else: choice = targets[choice-1]
+        if choice == 0 or choice > len(options): choice = None
+        else: choice = options[choice-1]
         
         return choice
 
 class FirstAI(TroubleAI):
-    def choose(self,player,targets):
-        return targets[0]
+    AI = "FIRST"
+    def choose(self,player,options):
+        return options[0]
 
 class LastAI(TroubleAI):
-    def choose(self,player,targets):
-        return targets[len(targets)-1]
+    AI = "LAST"
+    def choose(self,player,options):
+        return options[len(options)-1]
 
 class AheadAI(TroubleAI):
-    def choose(self,player,targets):
-        return targets[len(targets)-1]
+    AI = "AHEAD"
+    def choose(self,player,options):
+        best_choice = None
+        least_distance = 0
+        for opt in options:
+            (token,dest) = opt
+            distance = token.distance_to_base()
+            if distance < least_distance or least_distance == 0:
+                best_choice = opt
+                least_distance = distance
+        return best_choice
+
+class BehindAI(TroubleAI):
+    AI = "BEHIND"
+    def choose(self,player,options):
+        best_choice = None
+        most_distance = 0
+        for opt in options:
+            (token,dest) = opt
+            distance = token.distance_to_base()
+            if distance > most_distance or most_distance == 0:
+                best_choice = opt
+                most_distance = distance
+        return best_choice

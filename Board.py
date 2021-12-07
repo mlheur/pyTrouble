@@ -29,10 +29,10 @@ class Board(object):
         return randint(1,6)
 
     def redraw(self):
-        print(str(self))
+        pass # print(str(self))
 
     def run(self):
-        print(str(self))
+        self.redraw()
         players_are_active = True
         while(players_are_active):
             players_are_active = False
@@ -41,10 +41,7 @@ class Board(object):
                     players_are_active = True
                     p.move()
         stats = list()
-        for p in self.players:
-            stats.append((p.name,p.turns,p.moves,p.rolled_again))
-        return stats
-
+        
     def __str__(self) -> str:
         board_str = ""
 

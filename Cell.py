@@ -60,6 +60,14 @@ class Cell(object):
             if ahead is None: return ahead
         return ahead
     
+    def distance_to_base(self,player):
+        i = self
+        n = 0
+        while i is not None and i.type < 1:
+            n += 1
+            i = i.get_next(player)
+        return n
+    
     def get_next(self,player):
         if self.exit_id == player.id:
             return self.exit

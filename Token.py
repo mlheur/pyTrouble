@@ -14,6 +14,9 @@ class Token(object):
         self.id       = id
         self.location = None
     
+    def distance_to_base(self):
+        return self.location.distance_to_base(self.player)
+
     def boot(self):
         # maybe there should be some error checking, but
         # if I did everything right, this will never go wrong :-o
