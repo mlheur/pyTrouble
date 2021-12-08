@@ -29,8 +29,11 @@ if __name__ == "__main__":
 
     for i in range(100000):
         b = Board(gamers,4,7)
-        b.run()
+        try:
+            b.run()
+        except KeyboardInterrupt as ki:
+            stats.show(b)
+            break
         for p in b.players:
             stats.update(p)
-            continue
         if i % 1000 == 999: stats.show(b)
