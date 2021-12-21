@@ -20,7 +20,8 @@ class UserAI(TroubleAI):
     def choose(self,player,options):
         choice_str = ""
         while len(choice_str) == 0:
-            choice_str = input("Choose wisely! ")
+            print("{}".format(player.board))
+            choice_str = input("Choose wisely, {}! ".format(player.name))
 
         try:
             choice = int(choice_str)
