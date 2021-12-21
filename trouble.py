@@ -12,17 +12,24 @@ from AI import UserAI, FirstAI, LastAI, AheadAI, BehindAI, AttackAI
 from Stats import Stats
 
 if __name__ == "__main__":
-    uai = UserAI()
-    aaai = AttackAI()
-    aai = AheadAI()
-    bai = BehindAI()
-    fai = FirstAI()
-    lai = LastAI()
+    AISet = {
+        "UserAI": UserAI(),
+        "AttackAI": AttackAI(),
+        "AheadAI": AheadAI(),
+        "BehindAI": BehindAI(),
+        "FirstAI": FirstAI(),
+        "LastAI": LastAI()}
+
+    AssignedAI = {}
+    for n in range(4):
+        if len(argv) > n+1: AssignedAI[n] = argv[n+1]
+        else: AssignedAI[n] = "UserAI"
+
     gamers = (
-        ("red","R",aaai),
-        ("blue","B",aaai),
-        ("yellow","Y",bai),
-        ("green","G",aai),
+        ("red","R",AISet[AssignedAI[0]]),
+        ("blue","B",AISet[AssignedAI[1]]),
+        ("yellow","Y",AISet[AssignedAI[2]]),
+        ("green","G",AISet[AssignedAI[3]]),
     )
 
     stats = Stats(gamers)
